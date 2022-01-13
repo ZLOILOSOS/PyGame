@@ -2,7 +2,7 @@ import pygame
 import sys
 import os
 
-theme_list = ['Классическая', 'Цветочная']
+theme_list = ['Тёмная', 'Светлая', 'Цветочная']
 theme_num = 0
 theme = theme_list[theme_num]
 speed_list = [30, 60, 90, 120]
@@ -16,7 +16,6 @@ durability = durability_list[durability_num]
 amount = amount_list[amount_num]
 stat = ''
 vertical_borders = pygame.sprite.Group()
-
 
 '''def set_parameters(theme_par, speed_par, durability_par, amount_par):
     if theme_par == '':
@@ -73,6 +72,8 @@ def button(x, y, w, h, ic, ac, action=None):
             draw(x, y, w, h, ac, 'Меню')
         elif action == 'theme':
             draw(x, y, w, h, ac, 'Тема: {}'.format(theme))
+        elif action == 'retry':
+            draw(x, y, w, h, ac, 'Заново')
     else:
         if action == 'start':
             draw(x, y, w, h, ic, 'Начать')
@@ -90,6 +91,8 @@ def button(x, y, w, h, ic, ac, action=None):
             draw(x, y, w, h, ic, 'Меню')
         elif action == 'theme':
             draw(x, y, w, h, ic, 'Тема: {}'.format(theme))
+        elif action == 'retry':
+            draw(x, y, w, h, ic, 'Заново')
 
 
 all_sprites = pygame.sprite.Group()
@@ -98,7 +101,9 @@ all_sprites = pygame.sprite.Group()
 class Gun(pygame.sprite.Sprite):
     if theme == 'Цветочная':
         image = load_image("data/images/flower_theme/gun.png")
-    if theme == 'Классическая':
+    if theme == 'Тёмная':
+        image = load_image("data/images/flower_theme/gun.png")
+    if theme == 'Светлая':
         image = load_image("data/images/flower_theme/gun.png")
 
     def __init__(self, size, x, y):
@@ -111,28 +116,82 @@ class Gun(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect = self.rect.move(self.x, self.y)
         self.mask = pygame.mask.from_surface(self.image)
-
-    def move(self, x, y, mv):
-        '''running = True
-        self.x = x
+        '''self.x = x
         self.y = y
+        self.mv = 190
+        if amount == 5:
+            self.mv = 190
+        elif amount == 8:
+            self.mv = 120
+        elif amount == 10:
+            self.mv = 95
+        Gun.move()'''
+
+    '''def move(self):
+        running = True
         while running:
             key = pygame.key.get_pressed()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
                 if key[pygame.K_DOWN]:
-                    self.y -= mv
+                    self.y -= self.mv
                     self.rect = self.rect.move(self.x, self.y)
                 elif key[pygame.K_UP]:
-                    self.y += mv
+                    self.y += self.mv
                     self.rect = self.rect.move(self.x, self.y)'''
+
+    def dell(self):
+        self.x = 1500
+        self.rect = self.rect.move(self.x, self.x)
 
     def shoot(self):
         pass
 
 
 class Block(pygame.sprite.Sprite):
+    if theme == 'Цветочная':
+        image = load_image("data/images/flower_theme/gun.png")
+    if theme == 'Тёмная':
+        image = load_image("data/images/flower_theme/gun.png")
+    if theme == 'Светлая':
+        image = load_image("data/images/flower_theme/gun.png")
+
+    def __init__(self, size, x, y):
+        self.size = size
+        self.x = x
+        self.y = y
+        super().__init__(all_sprites)
+        self.image1 = Gun.image
+        self.image = pygame.transform.scale(self.image1, (self.size, self.size))
+        self.rect = self.image.get_rect()
+        self.rect = self.rect.move(self.x, self.y)
+        self.mask = pygame.mask.from_surface(self.image)
+        '''self.x = x
+        self.y = y
+        self.mv = 190
+        if amount == 5:
+            self.mv = 190
+        elif amount == 8:
+            self.mv = 120
+        elif amount == 10:
+            self.mv = 95
+        Gun.move()'''
+
+    '''def move(self):
+        running = True
+        while running:
+            key = pygame.key.get_pressed()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                if key[pygame.K_DOWN]:
+                    self.y -= self.mv
+                    self.rect = self.rect.move(self.x, self.y)
+                elif key[pygame.K_UP]:
+                    self.y += self.mv
+                    self.rect = self.rect.move(self.x, self.y)'''
+
     def move(self):
         if stat == 'menu':
             self.kill()
@@ -146,14 +205,46 @@ class Block(pygame.sprite.Sprite):
 
 class Ball(pygame.sprite.Sprite):
     if theme == 'Цветочная':
-        image = load_image("data/images/flower_theme/ball.png")
+        image = load_image("data/images/flower_theme/gun.png")
+    if theme == 'Тёмная':
+        image = load_image("data/images/flower_theme/gun.png")
+    if theme == 'Светлая':
+        image = load_image("data/images/flower_theme/gun.png")
 
     def __init__(self, size, x, y):
+        self.size = size
+        self.x = x
+        self.y = y
         super().__init__(all_sprites)
-        self.image = pygame.transform.scale(Ball.image, (size, size))
+        self.image1 = Gun.image
+        self.image = pygame.transform.scale(self.image1, (self.size, self.size))
         self.rect = self.image.get_rect()
-        self.rect = self.rect.move(x, y)
+        self.rect = self.rect.move(self.x, self.y)
         self.mask = pygame.mask.from_surface(self.image)
+        '''self.x = x
+        self.y = y
+        self.mv = 190
+        if amount == 5:
+            self.mv = 190
+        elif amount == 8:
+            self.mv = 120
+        elif amount == 10:
+            self.mv = 95
+        Gun.move()'''
+
+    '''def move(self):
+        running = True
+        while running:
+            key = pygame.key.get_pressed()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                if key[pygame.K_DOWN]:
+                    self.y -= self.mv
+                    self.rect = self.rect.move(self.x, self.y)
+                elif key[pygame.K_UP]:
+                    self.y += self.mv
+                    self.rect = self.rect.move(self.x, self.y)'''
 
     def contact(self):
         global vertical_borders
@@ -190,6 +281,7 @@ def menu_window():
     BLACK = (0, 0, 0)
     BLUE = (102, 230, 255)
     GREEN = (0, 200, 64)
+    PINK = (230, 50, 230)
     color1 = WHITE
     color2 = BLUE
     screen.fill(BLACK)
@@ -201,53 +293,47 @@ def menu_window():
             screen.blit(image, rect)
             color1 = BLACK
             color2 = GREEN
-        elif theme == 'Классическая':
+        elif theme == 'Тёмная':
             screen.fill(BLACK)
             color1 = WHITE
             color2 = BLUE
+        elif theme == 'Светлая':
+            screen.fill(WHITE)
+            color1 = BLACK
+            color2 = PINK
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if 850 <= event.pos[0] <= 1000 and 535 <= event.pos[1] <= 600:
-                    #set_parameters(theme, speed, durability, amount)
+                    # set_parameters(theme, speed, durability, amount)
                     game_window()
                 if 0 <= event.pos[0] <= 150 and 535 <= event.pos[1] <= 600:
                     pygame.quit()
                 if 325 <= event.pos[0] <= 695 and 475 <= event.pos[1] <= 550:
-                    if theme_num == 1:
+                    if theme_num == 2:
                         theme_num = 0
                     else:
                         theme_num += 1
                     theme = theme_list[theme_num]
-                    draw(325, 475, 350, 75, WHITE, 'Тема: {}'.format(theme))
                 if 325 <= event.pos[0] <= 695 and 275 <= event.pos[1] <= 350:
                     if speed_num == 3:
                         speed_num = 0
                     else:
                         speed_num += 1
                     speed = speed_list[speed_num]
-                    draw(325, 275, 350, 75, WHITE, 'Скорость: {}'.format(speed))
                 if 325 <= event.pos[0] <= 695 and 375 <= event.pos[1] <= 450:
                     if durability_num == 3:
                         durability_num = 0
                     else:
                         durability_num += 1
                     durability = durability_list[durability_num]
-                    draw(325, 375, 350, 75, WHITE, 'Прочность блоков: {}'.format(durability))
                 if 325 <= event.pos[0] <= 695 and 175 <= event.pos[1] <= 250:
                     if amount_num == 2:
                         amount_num = 0
                     else:
                         amount_num += 1
                     amount = amount_list[amount_num]
-                    draw(325, 175, 350, 75, WHITE, 'Количество линий: {}'.format(amount))
-        draw(835, 535, 150, 65, color1, 'Начать')
-        draw(0, 535, 150, 65, color1, 'Выйти')
-        draw(325, 475, 350, 75, color1, 'Тема: {}'.format(theme))
-        draw(325, 275, 350, 75, color1, 'Скорость: {}'.format(speed))
-        draw(325, 375, 350, 75, color1, 'Прочность блоков: {}'.format(durability))
-        draw(325, 175, 350, 75, color1, 'Количество линий: {}'.format(amount))
         draw(525, 50, 350, 75, color1, 'Рекорд: {}'.format(best_score))
         draw(125, 50, 350, 75, color1, 'Результат: {}'.format(last_score))
 
@@ -268,6 +354,7 @@ def game_window():
     BLACK = (0, 0, 0)
     BLUE = (102, 230, 255)
     GREEN = (0, 255, 0)
+    PINK = (230, 50, 230)
     color1 = WHITE
     color2 = BLUE
     color3 = WHITE
@@ -284,12 +371,18 @@ def game_window():
             color2 = GREEN
             color3 = WHITE
             color4 = GREEN
-        elif theme == 'Классическая':
+        elif theme == 'Тёмная':
             screen.fill(BLACK)
             color1 = WHITE
             color2 = BLUE
             color3 = WHITE
             color4 = WHITE
+        elif theme == 'Светлая':
+            screen.fill(WHITE)
+            color1 = BLACK
+            color2 = PINK
+            color3 = BLACK
+            color4 = BLACK
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -309,9 +402,6 @@ def game_window():
         for i in range(1, amount + 1):
             y = i * 550 / amount
             pygame.draw.line(screen, color3, [0, y], [1000, y], 1)
-        draw(850, 550, 150, 50, color1, 'Меню')
-        draw(0, 550, 150, 50, color1, 'Выйти')
-        draw(425, 550, 150, 50, color1, 'Пауза')
         button(850, 550, 150, 50, color1, color2, action='menu')
         button(0, 550, 150, 50, color1, color2, action='exit')
         button(425, 550, 150, 50, color1, color2, action='pause')
@@ -328,7 +418,70 @@ def game_window():
 
 
 def end_winodw():
-    pass
+    running = True
+    WHITE = (255, 255, 255)
+    BLACK = (0, 0, 0)
+    BLUE = (102, 230, 255)
+    GREEN = (0, 255, 0)
+    PINK = (230, 50, 230)
+    color1 = WHITE
+    color2 = BLUE
+    color3 = WHITE
+    color4 = WHITE
+    screen.fill(BLACK)
+    pygame.display.flip()
+    while running:
+        if theme == 'Цветочная':
+            image = load_image("data/images/flower_theme/background.png")
+            rect = image.get_rect()
+            rect.left, rect.top = 0, 0
+            screen.blit(image, rect)
+            color1 = BLACK
+            color2 = GREEN
+            color3 = WHITE
+            color4 = GREEN
+        elif theme == 'Тёмная':
+            screen.fill(BLACK)
+            color1 = WHITE
+            color2 = BLUE
+            color3 = WHITE
+            color4 = WHITE
+        elif theme == 'Светлая':
+            screen.fill(WHITE)
+            color1 = BLACK
+            color2 = PINK
+            color3 = BLACK
+            color4 = BLACK
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if 850 <= event.pos[0] <= 1000 and 550 <= event.pos[1] <= 600:
+                    menu_window()
+                if 0 <= event.pos[0] <= 150 and 550 <= event.pos[1] <= 600:
+                    pygame.quit()
+                if 425 <= event.pos[0] <= 475 and 560 <= event.pos[1] <= 600:
+                    game_window()
+        if last_score > best_score:
+            mes1 = ''
+            mes2 = ''
+        elif last_score + best_score // 5 > best_score:
+            mes1 = ''
+            mes2 = ''
+            draw(525, 50, 350, 75, color1, 'Ваш Рекорд: {}'.format(best_score))
+        else:
+            mes1 = ''
+            mes2 = ''
+            draw(525, 50, 350, 75, color1, 'Ваш Рекорд: {}'.format(best_score))
+        draw(125, 50, 350, 75, color1, mes1 + str(last_score) + mes2)
+
+        button(850, 550, 150, 50, color1, color2, action='menu')
+        button(0, 550, 150, 50, color1, color2, action='exit')
+        button(425, 550, 150, 50, color1, color2, action='retry')
+
+        all_sprites.draw(screen)
+        pygame.display.flip()
+    pygame.quit()
 
 
 if __name__ == '__main__':
